@@ -118,8 +118,8 @@ class TestAnalyzer(unittest.TestCase):
         # check if successful
         self.assertEqual(len(analyzer.get('s_per_min')['count']), 2)
         self.assertEqual(len(analyzer.get('s_per_hour')['count']), 1)
-        self.assertEqual(analyzer.get('s_per_min')['count'].values()[0], 2)
-        self.assertEqual(analyzer.get('s_per_min')['count'].values()[1], 1)
+        self.assertEqual(analyzer.get('s_per_min')['count'].values()[0], 1)
+        self.assertEqual(analyzer.get('s_per_min')['count'].values()[1], 2)
         self.assertEqual(analyzer.get('s_per_hour')['count'].values()[0], 3)
 
     def test_unsuccessful_per_time_min(self):
@@ -159,8 +159,8 @@ class TestAnalyzer(unittest.TestCase):
         # check if successful
         self.assertEqual(len(analyzer.get('un_per_min')['count']), 2)
         self.assertEqual(len(analyzer.get('un_per_hour')['count']), 1)
-        self.assertEqual(analyzer.get('un_per_min')['count'].values()[0], 2)
-        self.assertEqual(analyzer.get('un_per_min')['count'].values()[1], 1)
+        self.assertEqual(analyzer.get('un_per_min')['count'].values()[0], 1)
+        self.assertEqual(analyzer.get('un_per_min')['count'].values()[1], 2)
         self.assertEqual(analyzer.get('un_per_hour')['count'].values()[0], 3)
 
     def test_empty_file(self):
@@ -170,7 +170,12 @@ class TestAnalyzer(unittest.TestCase):
         f.close()
         analyzer = LogAnalyzer().analyze(file, False)
 
-        self.assertEqual(len(analyzer), 0)
+        self.assertEqual(len(analyzer), 4)
+        self.assertEqual(analyzer.get('s_per_min'), None)
+        self.assertEqual(analyzer.get('s_per_hour'), None)
+        self.assertEqual(analyzer.get('un_per_min'), None)
+        self.assertEqual(analyzer.get('un_per_hour'), None)
+
 
 if __name__ == '__main__':
     unittest.main()
